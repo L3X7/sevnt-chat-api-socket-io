@@ -1,2 +1,2 @@
-# sevnt-chat-api-socket-io
+# SevntChat
 SevntChat Api in Socket.IO

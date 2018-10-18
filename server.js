@@ -1,10 +1,14 @@
-const app = require('express')();
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
-const global = require('./global');
-const port = process.env.port || 8080;
+var app = require('express')();
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+var global = require('./global');
+var port = process.env.PORT || 8000;
+
+server.listen(port, () => {
+    console.log(`App listening port ${port}`);
+});
 
 require('./app/models/models');
 
@@ -143,6 +147,3 @@ mongoose.connect('mongodb://' + global.prodMongDb + '/' + global.mongoDb, { useN
     }
 });
 
-app.listen(port, () => {
-    console.log(`App listening port ${port}`);
-});

@@ -1,0 +1,21 @@
+{
+  "name": "sevnt-chat-api-socket",
+  "version": "1.0.0",
+  "description": "SevntChat Api with Socket.io",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Alexander Melara",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongodb": "^3.1.8",
+    "mongoose": "^5.3.4",
+    "socket.io": "^2.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}

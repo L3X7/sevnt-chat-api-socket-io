@@ -143,6 +143,6 @@ mongoose.connect('mongodb://' + global.prodMongDb + '/' + global.mongoDb, { useN
     }
 });
 
-server.listen(port, () => {
+app.listen(port, () => {
     console.log(`App listening port ${port}`);
 });

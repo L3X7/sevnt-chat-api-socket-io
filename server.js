@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var MessagePersonal = mongoose.model('MessagePersonal'),
     MessagePersonalRoom = mongoose.model('MessagePersonalRoom');
 
-app.get('/test', function(req, res){
-    return res.json({message: 'Test'});
+app.get('/test', (req, res) => {
+    res.send('Test');
 })
 
 //Create connection

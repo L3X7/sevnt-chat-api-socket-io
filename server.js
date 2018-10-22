@@ -19,7 +19,7 @@ var MessagePersonal = mongoose.model('MessagePersonal'),
     MessagePersonalRoom = mongoose.model('MessagePersonalRoom');
 
 app.get('/test', function(req, res){
-    res.send('Test...');
+    return res.json({message: 'Test'});
 })
 
 //Create connection

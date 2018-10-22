@@ -31,7 +31,7 @@ io.on('connection', function (socket) {
 
 
     //Get the messages
-    socket.on('get-messages-by-room', (query) => {
+    socket.on('get-messages-by-room', function (query) {
         //Find room and emit
         MessagePersonalRoom.find({
             $or: [
@@ -59,14 +59,14 @@ io.on('connection', function (socket) {
                                 io.sockets.in(query.room_socket_io).emit('get-personal-messages', { status: 404, message: 'Messages not found' })
 
                             }
-                            io.sockets.in(query.room_socket_io).emit('get-personal-messages', { status: 200, message: 'Success', messagePersonalRoom: messagePersonalRoom, messagePersonal: messagePersonal, data: { q: query.id_one, q2: query.id_two, q3: query.room_socket_io} })
+                            io.sockets.in(query.room_socket_io).emit('get-personal-messages', { status: 200, message: 'Success', messagePersonalRoom: messagePersonalRoom, messagePersonal: messagePersonal, data: { q: query.id_one, q2: query.id_two, q3: query.room_socket_io } })
                         });
                 }
                 else {
-                    io.sockets.in(query.room_socket_io).emit('get-personal-messages', { status: 200, message: 'Success', messagePersonalRoom: messagePersonalRoom, messagePersonal: [], data: { q: query.id_one, q2: query.id_two, q3: query.room_socket_io} })
+                    io.sockets.in(query.room_socket_io).emit('get-personal-messages', { status: 200, message: 'Success', messagePersonalRoom: messagePersonalRoom, messagePersonal: [], data: { q: query.id_one, q2: query.id_two, q3: query.room_socket_io } })
                 }
             });
-    });
+    })
 });
 
 mongoose.connect('mongodb://' + global.prodMongDb + '/' + global.mongoDb, { useNewUrlParser: true }, (err) => {

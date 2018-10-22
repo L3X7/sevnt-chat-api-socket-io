@@ -29,44 +29,23 @@ io.on('connection', function (socket) {
         socket.join(room);
     });
 
-
-    //Get the messages
-    socket.on('get-messages-by-room', function (query) {
-        //Find room and emit
-        MessagePersonalRoom.find({
-            $or: [
-                { user_one: query.id_one, user_two: query.id_two },
-                { user_two: query.id_one, user_one: query.id_two }
-            ]
+    //Create message
+    socket.on('create-message-personal', function (req) {
+        var messagePersonal = new MessagePersonal({
+            message_personal_room: req.message_room,
+            created_by: req.user_one,
+            message: req.message,
+            status: true
+        });
+        messagePersonal.save(function (err) {
+            if (err) {
+                io.sockets.in(req.message_room).emit('get-message-personal', { status: 500, message: 'Error in transaction' });
+            }
+            else {
+                io.sockets.in(req.message_room).emit('get-message-personal', { status: 200, messagePersonal: messagePersonal, message: 'Success' });
+            }
         })
-            .exec(function (err, messagePersonalRoom) {
-                if (err) {
-                    io.sockets.in(query.room_socket_io).emit('get-personal-messages', { status: 500, message: 'Error in transaction' });
-                }
-                else if (!messagePersonalRoom) {
-                    io.sockets.in(query.room_socket_io).emit('get-personal-messages', { status: 404, message: 'Messages not found' })
-                }
-                if (messagePersonalRoom.length) {
-                    //If exist last messages
-                    MessagePersonal.find({
-                        message_personal_room: messagePersonalRoom[0]._id
-                    })
-                        .exec(function (error, messagePersonal) {
-                            if (error) {
-                                io.sockets.in(query.room_socket_io).emit('get-personal-messages', { status: 500, message: 'Error in transaction' })
-                            }
-                            else if (!messagePersonal) {
-                                io.sockets.in(query.room_socket_io).emit('get-personal-messages', { status: 404, message: 'Messages not found' })
-
-                            }
-                            io.sockets.in(query.room_socket_io).emit('get-personal-messages', { status: 200, message: 'Success', messagePersonalRoom: messagePersonalRoom, messagePersonal: messagePersonal, data: { q: query.id_one, q2: query.id_two, q3: query.room_socket_io } })
-                        });
-                }
-                else {
-                    io.sockets.in(query.room_socket_io).emit('get-personal-messages', { status: 200, message: 'Success', messagePersonalRoom: messagePersonalRoom, messagePersonal: [], data: { q: query.id_one, q2: query.id_two, q3: query.room_socket_io } })
-                }
-            });
-    })
+    });
 });
 
 mongoose.connect('mongodb://' + global.prodMongDb + '/' + global.mongoDb, { useNewUrlParser: true }, (err) => {

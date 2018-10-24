@@ -48,7 +48,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('typing', function (req){
-        io.sockets.in(req.message_room),emit('typing',{ id: req.id, message: req.user + ' esta escribiendo...'});
+        io.sockets.in(req.message_room).emit('typing',{ id: req.id, message: req.user + ' esta escribiendo...'});
     })
 
 

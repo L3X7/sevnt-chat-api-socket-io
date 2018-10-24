@@ -46,6 +46,12 @@ io.on('connection', function (socket) {
             }
         })
     });
+
+    socket.on('typing', function (req){
+        io.sockets.in(req.message_room),emit('typing',{ id: req.id, message: req.user + ' esta escribiendo...'});
+    })
+
+
 });
 
 mongoose.connect('mongodb://' + global.prodMongDb + '/' + global.mongoDb, { useNewUrlParser: true }, (err) => {

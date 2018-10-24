@@ -51,6 +51,10 @@ io.on('connection', function (socket) {
         io.sockets.in(req.message_room).emit('typing',{ id: req.id, message: req.user + ' esta escribiendo...'});
     })
 
+    socket.on('stop_typing', function (req){
+        io.sockets.in(req.message_room).emit('stop_typing',{ id: req.id});
+    })
+
 
 });
 

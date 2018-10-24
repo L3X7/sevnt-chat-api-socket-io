@@ -39,7 +39,7 @@ io.on('connection', function (socket) {
         });
         messagePersonal.save(function (err) {
             if (err) {
-                io.sockets.in(req.message_room).emit('get-message-personal', { status: 500, message: 'Error in transaction' });
+                io.sockets.in(req.message_room).emit('get-message-personal', { status: 500, message: 'Error in transaction', error: err });
             }
             else {
                 io.sockets.in(req.message_room).emit('get-message-personal', { status: 200, messagePersonal: messagePersonal, message: 'Success' });
